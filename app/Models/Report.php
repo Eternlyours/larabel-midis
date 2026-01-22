@@ -15,6 +15,8 @@ class Report extends Model
     protected $fillable = [
         'number', 
         'description',
+        'status_id',
+        'user_id',
     ];
 
     public function status(): BelongsTo

@@ -1,20 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-     @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body>
-    <a href="{{ route('reports.create') }}">Create report</a>
-    <h1>Reports</h1>
-    <div>
-        <span>Sort by date</span>
-        <a href="{{ route('report.index', ['sort'=>'desc', 'status' => $status])}}">New</a>
-        <a href="{{ route('report.index', ['sort'=>'asc', 'status' => $status])}}">Old</a>
-        <a href="{{ route('report.index') }}">Reset filter and sort</a>
-    </div>
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('Dashboard') }}
+        </h2>
+    </x-slot>
+
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900 dark:text-gray-100">
+                   <a href="{{ route('reports.create') }}">Create report</a>
+        <h1>Reports</h1>
+        <div>
+            <span>Sort by date</span>
+            <a href="{{ route('report.index', ['sort'=>'desc', 'status' => $status])}}">New</a>
+            <a href="{{ route('report.index', ['sort'=>'asc', 'status' => $status])}}">Old</a>
+            <a href="{{ route('report.index') }}">Reset filter and sort</a>
+        </div>
+    
     <div>
         <span>
             Filter by status
@@ -29,16 +32,19 @@
             @endforeach
         </ul>
     </div>
+    <hr>
     @foreach ($reports as $report )
         <div>
-            <a href="{{ route('reports.show', $report->id) }}">Show report</a>
+            <strong>
+                <a href="{{ route('reports.show', $report->id) }}">Show report</a>
+            </strong>
             <h2>{{$report->number}}</h2>    
             <p>
                 {{ $report->description }}
             </p>
             <strong>{{ $report->status->name }}</strong>
             <br>
-            <strong>{{ $report->user->name }}</strong>
+            <strong>Author: {{ $report->user->name }} {{ $report->user->middlename }}</strong>
             <form action="{{ route('reports.delete', $report->id) }}" method="post">
                 @method('delete')
                 @csrf
@@ -50,5 +56,13 @@
         <hr>
     @endforeach
     {{ $reports->links() }}
-</body>
-</html>
+                </div>
+            </div>
+        </div>
+    </div>
+</x-app-layout>
+
+
+
+
+

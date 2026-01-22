@@ -6,6 +6,7 @@ use App\Models\Report;
 use App\Models\Status;
 use Illuminate\Cache\Repository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ReportController extends Controller
 {
@@ -24,11 +25,13 @@ class ReportController extends Controller
 
         if ($validate) {
             $reports = Report::where('status_id', $status)
+                            ->where('user_id', $request->user()->id)
                             ->orderBy('created_at', $sort)
                             ->paginate(3);
         }
         else {
-            $reports = Report::orderBy('created_at',$sort)
+            $reports = Report::where('user_id', $request->user()->id)
+                            ->orderBy('created_at',$sort)
                             ->paginate(3);
         }
 
@@ -45,6 +48,10 @@ class ReportController extends Controller
     }
 
     public function delete(Report $report) {
+        if (Auth::user()->id != $report->user_id) {
+            abort(403,'У вас нет прав на редактирование этой записи');
+        }
+
         $report -> delete();
         return redirect()->back();
     }
@@ -56,15 +63,27 @@ class ReportController extends Controller
             'description' => 'string|min:10|max:500',
         ]);
 
+        $data['user_id'] = Auth::user()->id;
+        $data['status_id'] = 1;
+
         $report->create($data);
         return redirect()->back();
     }
 
-    public function show(Report $report) {
+    public function show(Report $report, Request $request) {
+
+        if (Auth::user()->id != $report->user_id) {
+            abort(403,'У вас нет прав на редактирование этой записи');
+        }
         return view('report.show', compact('report'));
     }
 
     public function update(Request $request, Report $report) {
+
+        if (Auth::user()->id != $report->user_id) {
+            abort(403,'У вас нет прав на редактирование этой записи');
+        }
+
         $data = $request -> validate([
             'number' => 'string',
             'description' => 'string|min:10|max:500',
@@ -73,4 +92,5 @@ class ReportController extends Controller
         $report->update($data);
         return redirect()->back();
     }
+    
 }
