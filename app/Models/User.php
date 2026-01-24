@@ -7,9 +7,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
+    const ADMIN_ROLE = 'admin';
+
+    const ADMIN_PASS = 'password';
+    const ADMIN_LOGIN = 'copp';
+
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
@@ -37,6 +43,19 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public function isAdmin() {
+        // return $this->role === self::ADMIN_ROLE;
+        if (
+            Hash::check(self::ADMIN_PASS, $this->password) &&
+            self::ADMIN_LOGIN === $this->login)
+        {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 
     /**
      * Get the attributes that should be cast.

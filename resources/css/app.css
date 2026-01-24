@@ -1,3 +1,26 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+table {
+    border: 1px solid black;
+    margin: 0 auto;
+}
+
+tr {
+    border: 1px solid black;
+}
+
+td {
+    border-right: 1px solid black;
+}
+
+.desc {
+    width: 500px;
+}
+
+.alert {
+    color: red;
+    font-size: 32px;
+}

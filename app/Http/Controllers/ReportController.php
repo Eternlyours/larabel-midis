@@ -7,6 +7,7 @@ use App\Models\Status;
 use Illuminate\Cache\Repository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class ReportController extends Controller
 {
@@ -90,6 +91,25 @@ class ReportController extends Controller
         ]);
 
         $report->update($data);
+        return redirect()->back();
+    }
+
+    public function statusUpdate(Request $request, Report $report) {
+        $request -> validate([
+            'status_id' => 'required|exists:statuses,id'
+        ]);
+
+        $request -> validate([
+            'status_id' => 'required|exists:statuses,id'
+        ]);
+
+        if ($report->status->name === 'новое') {
+            $report->update($request->only(['status_id']));
+        }
+        else {
+            return redirect()->back()->with('error', 'Вы можете сменить статус только для новых заявлений');
+        }
+
         return redirect()->back();
     }
     
