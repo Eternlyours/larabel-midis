@@ -1,12 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <a href="{{ route('report.index') }}">Index</a>
+<x-app-layout>
+    <x-slot name="header">
+        <h2
+            class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight"
+        >
+            {{ __("Dashboard") }}
+        </h2>
+    </x-slot>
+    @include('layouts.flash-messages')
+    <div class="container mx-auto">
+        <a href="{{ route('report.index') }}">Index</a>
     <h1>Create Reports</h1>
     <form action="{{ route('reports.store') }}" method="post">
         @csrf
@@ -27,5 +29,6 @@
         <br>
         <input type="submit" value="Create">
     </form>
-</body>
-</html>
+    </div>
+    
+</x-app-layout>

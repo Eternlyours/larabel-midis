@@ -28,12 +28,12 @@ class ReportController extends Controller
             $reports = Report::where('status_id', $status)
                             ->where('user_id', $request->user()->id)
                             ->orderBy('created_at', $sort)
-                            ->paginate(3);
+                            ->paginate(6);
         }
         else {
             $reports = Report::where('user_id', $request->user()->id)
                             ->orderBy('created_at',$sort)
-                            ->paginate(3);
+                            ->paginate(6);
         }
 
         // if ($sort == 'asc' || $sort == 'desc') {
@@ -68,7 +68,7 @@ class ReportController extends Controller
         $data['status_id'] = 1;
 
         $report->create($data);
-        return redirect()->back();
+        return redirect()->back()->with('info', 'Заявление отправлено');
     }
 
     public function show(Report $report, Request $request) {

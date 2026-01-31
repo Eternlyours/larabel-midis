@@ -30,13 +30,13 @@
 
         <div class="mt-4">
             <x-input-label for="tel" :value="__('Tel')" />
-            <x-text-input id="tel" class="block mt-1 w-full" type="text" name="tel" :value="old('tel')"
+            <x-tel-input id="tel" class="block mt-1 w-full" type="text" name="tel" :value="old('tel')"
             required autocomplete="tel" />
             <x-input-error :messages="$errors->get('tel')" class="mt-2" />
         </div>
 
          <div class="mt-4">
-            <x-input-label for="login" :value="__('Login')" />
+            <x-input-label for="login" :value="__('LoginUser')" />
             <x-text-input id="login" class="block mt-1 w-full" type="text" name="login" :value="old('login')"
             required autocomplete="login" />
             <x-input-error :messages="$errors->get('login')" class="mt-2" />

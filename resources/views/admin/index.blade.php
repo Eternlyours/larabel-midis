@@ -1,12 +1,7 @@
 <x-app-layout>
     <h1>Admin panel</h1>
     
-    @if(session()->has('error'))
-    <div class="alert">
-        {{ session()->get('error') }}
-    </div>
-@endif
-
+     @include('layouts.flash-messages')
     <table>
         <tr>
             <th>ФИО</th>
